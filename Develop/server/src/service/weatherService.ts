@@ -86,7 +86,7 @@ class WeatherService {
   }
 
   // TODO: Complete buildForecastArray method
-  private buildForecastArray(currentWeather: Weather, weatherData: any[]): Weather[] {
+  private buildForecastArray(weatherData: any[]): Weather[] {
     return weatherData.map(data => new Weather(
       data.main.temp,
       data.weather[0].description,
@@ -97,12 +97,14 @@ class WeatherService {
 
   // TODO: Complete getWeatherForCity method
   async getWeatherForCity(city: string): Promise<Weather[]> {
+    this.cityName = city;
     const coordinates = await this.fetchAndDestructureLocationData();
     const weatherData = await this.fetchWeatherData(coordinates);
-    return [weatherData];
+    const forecastArray = this.buildForecastArray([weatherData]);
+    return forecastArray;
 
   }
 
 }
 
-export default new WeatherService();
+export default new WeatherService('defaultCityName');
