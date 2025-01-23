@@ -2,7 +2,10 @@ import fs from 'fs/promises';
 
 // TODO: Define a City class with name and id properties
 class City {
-  constructor(name, id) {
+  name: string;
+  id: number;
+
+  constructor(name: string, id: number) {
     this.name = name;
     this.id = id;
   }
@@ -10,6 +13,7 @@ class City {
 
 // TODO: Complete the HistoryService class
 class HistoryService {
+  private filepath: string;
   constructor() {
     this.filepath = './searchHistory.json';
   }
@@ -35,7 +39,7 @@ class HistoryService {
 }
 
   // TODO: Define a getCities method that reads the cities from the searchHistory.json file and returns them as an array of City objects
-  async getCities() {
+  async getCities(): Promise<City[]> {
     const cities = await this.read();
     return cities.map((city) => new City(city.name, city.id));
   }
