@@ -59,7 +59,7 @@ class WeatherService {
 
   // TODO: Create buildWeatherQuery method
   private buildWeatherQuery(coordinates: Coordinates): string {
-    return `${this.baseURL}/weather?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${this.apiKey}`;
+    return `${this.baseURL}/https://api.openweathermap.org/data/2.5/forecast?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${this.apiKey}`;
   }
 
   // TODO: Create fetchAndDestructureLocationData method
@@ -72,7 +72,7 @@ class WeatherService {
   private async fetchWeatherData(coordinates: Coordinates): Promise<Weather> {
     const response = await fetch(this.buildWeatherQuery(coordinates));
     const weatherData = await response.json();
-    return this.parseCurrentWeather(weatherData);
+    return this.parseCurrentWeather(weatherData.list);
   }
 
   // TODO: Build parseCurrentWeather method
