@@ -6,7 +6,7 @@ This is a weather forecast application that allows users to see the weather of a
 ## Table of Contents
 
 ## Installation
-No installation is required. Can be accsed by clicking the following link https://weather-forecast-2mgn.onrender.com/
+No installation is required. Can be accsed by clicking the following link [https://weather-forecast-2mgn.onrender.com/]
 
 ## Usage
 To use the application just type the name of the city you wish to view to see the current forecast and the five day forecast.
