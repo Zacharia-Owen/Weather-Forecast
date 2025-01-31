@@ -15,7 +15,7 @@ class City {
 class HistoryService {
   private filepath: string;
   constructor() {
-    this.filepath = './searchHistory.json';
+    this.filepath = './db/db.json';
   }
 
   // TODO: Define a read method that reads from the searchHistory.json file
