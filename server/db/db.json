@@ -5,5 +5,21 @@
   {
     "name": "San Diego",
     "id": null
+  },
+  {
+    "name": "New York City",
+    "id": 1
+  },
+  {
+    "name": "New York City",
+    "id": 2
+  },
+  {
+    "name": "New York City",
+    "id": 3
+  },
+  {
+    "name": "New York City",
+    "id": 4
   }
 ]

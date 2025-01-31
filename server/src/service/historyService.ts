@@ -13,7 +13,8 @@ class City {
 
 // TODO: Complete the HistoryService class
 class HistoryService {
-  private filepath: string;
+  filepath: string;
+  
   constructor() {
     this.filepath = './db/db.json';
   }

@@ -69,7 +69,7 @@ class WeatherService {
 
   // TODO: Create buildWeatherQuery method
   private buildWeatherQuery(coordinates: Coordinates): string {
-    return `${this.baseURL}/data/2.5/forecast?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${this.apiKey}`;
+    return `${this.baseURL}/data/2.5/forecast?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${this.apiKey}&units=metric`;
   }
 
   // TODO: Create fetchAndDestructureLocationData method
@@ -84,9 +84,7 @@ class WeatherService {
       const response = await fetch(this.buildWeatherQuery(coordinates));
       if (!response.ok) throw new Error('Failed to fetch weather data');
       const weatherData = await response.json();
-      // fix parsecurrentweather
       const currentWeather = this.parseCurrentWeather(weatherData);  
-      // fix buildforecastarray
       const forecastArray = this.buildForecastArray(weatherData.list);
       return [currentWeather, ...forecastArray];
     } catch (error) {
@@ -94,7 +92,6 @@ class WeatherService {
       throw new Error('Could not fetch weather data');
     }
   }
-  // filter dt_txt so it only grabs 12:00:00
 
   // TODO: Build parseCurrentWeather method
   private parseCurrentWeather(response: any): Weather {
@@ -102,14 +99,14 @@ class WeatherService {
       throw new Error("Weather data is missing or invalid");
     }
     const currentWeather = response.list[0];
+    console.log(currentWeather);
     return new Weather(
-      currentWeather.city.name,
-      currentWeather.dt_txt,
-      currentWeather.icon,
-      currentWeather.date,
-      currentWeather.iconDescription,
-      currentWeather.main.temp, 
-      currentWeather.weather[0].description, 
+      this.cityName,
+      new Date(currentWeather.dt * 1000).toLocaleDateString(),
+      currentWeather.weather[0].icon,
+      currentWeather.weather[0].description,
+      currentWeather.main.temp,
+      currentWeather.weather[0]?.description, 
       currentWeather.main.humidity, 
       currentWeather.wind.speed
     );
@@ -117,10 +114,11 @@ class WeatherService {
 
   // TODO: Complete buildForecastArray method
   private buildForecastArray(weatherData: any[]): Weather[] {
-    console.log(weatherData);
-    return weatherData.map(data => new Weather(
-      data.city.name,
-      data.dt_txt,
+    const fiveDayForecasts = weatherData.filter((_, index) => index % 8 === 0);
+
+    return fiveDayForecasts.map(data => new Weather(
+      this.cityName,
+      new Date(data.dt * 1000).toLocaleDateString(),
       data.weather[0].icon,
       data.weather[0].description,
       data.main.temp,
@@ -133,12 +131,9 @@ class WeatherService {
   // TODO: Complete getWeatherForCity method
   async getWeatherForCity(city: string): Promise<Weather[]> {
     this.cityName = city;
-    console.log(this.cityName, city);
     const coordinates = await this.fetchAndDestructureLocationData();
     const weatherData = await this.fetchWeatherData(coordinates);
-    // const forecastArray = this.buildForecastArray(weatherData);
     return weatherData;
-
   }
 
 }
