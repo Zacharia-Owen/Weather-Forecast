@@ -6,15 +6,14 @@ import WeatherService from '../../service/weatherService.js';
 
 
 // TODO: POST Request with city name to retrieve weather data
+// TODO: GET weather data from city name
+ // TODO: save city to search history
 router.post('/', async (req: Request, res: Response) => {
   const { cityName } = req.body;
-  // TODO: GET weather data from city name
-  // TODO: save city to search history
   try {
     const weatherData = await WeatherService.getWeatherForCity(cityName);
     await HistoryService.addCity(cityName)
     res.status(200).json(weatherData);
-    
   } catch (error) {
     console.error(error);
     res.status(500).json({message: 'Error retrieving weather data'});
